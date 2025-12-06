@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useDashboard } from "@/context/DashboardContext";
 import { cn } from "@/lib/utils";
 import { Building2, Eye, EyeOff, Loader2 } from "lucide-react";
 import logo from "@assets/WhatsApp_Image_2025-11-21_at_13.15.47_0e28b0ce-removebg-previe_1764984243025.png";
 
 export default function Login() {
   const [location, setLocation] = useLocation();
+  const { login } = useDashboard();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     // Simulate login delay
     setTimeout(() => {
+      login(email);
       setIsLoading(false);
       setLocation("/dashboard");
     }, 1000);
@@ -41,6 +45,8 @@ export default function Login() {
               <label className="text-sm font-medium text-slate-700 ml-1">Email Address</label>
               <input 
                 type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@shagaf.com"
                 className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none text-slate-800 placeholder:text-slate-400"
                 required

@@ -79,6 +79,8 @@ const MOCK_BOOKINGS: Booking[] = [
 ];
 
 interface DashboardContextType {
+  userEmail: string;
+  login: (email: string) => void;
   selectedBranchId: string;
   setSelectedBranchId: (id: string) => void;
   selectedRoomId: string | null;
@@ -94,9 +96,14 @@ interface DashboardContextType {
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
+  const [userEmail, setUserEmail] = useState("admin@shagaf.com");
   const [selectedBranchId, setSelectedBranchId] = useState<string>("b1");
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [bookings, setBookings] = useState<Booking[]>(MOCK_BOOKINGS);
+
+  const login = (email: string) => {
+    setUserEmail(email);
+  };
 
   const confirmBooking = (id: string) => {
     setBookings(prev => prev.map(b => b.id === id ? { ...b, status: "confirmed" } : b));
@@ -112,6 +119,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <DashboardContext.Provider value={{
+      userEmail,
+      login,
       selectedBranchId,
       setSelectedBranchId,
       selectedRoomId,

@@ -1,11 +1,11 @@
-import { DashboardProvider, useDashboard } from "@/context/DashboardContext";
+import { useDashboard } from "@/context/DashboardContext";
 import { Sidebar } from "@/components/Sidebar";
 import { RoomMap } from "@/components/RoomMap";
 import { BookingDetails } from "@/components/BookingDetails";
 import { cn } from "@/lib/utils";
 import { Search, MapPin } from "lucide-react";
 
-function DashboardContent() {
+export default function Dashboard() {
     const { branches, selectedBranchId, setSelectedBranchId, selectedRoomId } = useDashboard();
 
     return (
@@ -41,13 +41,5 @@ function DashboardContent() {
             {/* Right Panel - Conditional Rendering based on selection */}
              <BookingDetails />
         </div>
-    );
-}
-
-export default function Dashboard() {
-    return (
-        <DashboardProvider>
-            <DashboardContent />
-        </DashboardProvider>
     );
 }

@@ -4,7 +4,7 @@ import { LayoutDashboard, Building2, Users, Settings, Bell, LogOut } from "lucid
 import logo from "@assets/WhatsApp_Image_2025-11-21_at_13.15.47_0e28b0ce-removebg-previe_1764984243025.png";
 
 export function Sidebar() {
-  const { bookings } = useDashboard();
+  const { bookings, userEmail } = useDashboard();
   const pendingCount = bookings.filter(b => b.status === "pending").length;
 
   return (
@@ -18,6 +18,7 @@ export function Sidebar() {
         <div className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Main Menu</div>
         <nav className="space-y-1">
           <NavItem icon={LayoutDashboard} label="Dashboard" active />
+          <NavItem icon={Building2} label="Rooms & Roofs" />
           <NavItem icon={Users} label="Customers" />
           <NavItem icon={Bell} label="Notifications" badge={pendingCount > 0 ? pendingCount : undefined} />
         </nav>
@@ -34,7 +35,7 @@ export function Sidebar() {
              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" alt="Admin" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium">admin@shagaf.com</span>
+            <span className="text-sm font-medium w-40 truncate" title={userEmail}>{userEmail}</span>
             <span className="text-xs text-muted-foreground">Manager</span>
           </div>
         </div>
