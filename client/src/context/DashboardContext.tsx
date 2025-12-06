@@ -43,8 +43,8 @@ export interface Branch {
 
 // Mock Data
 const MOCK_BRANCHES: Branch[] = [
-  { id: "b1", name: "Downtown Branch" },
-  { id: "b2", name: "Seaside Branch" },
+  { id: "b1", name: "Room" },
+  { id: "b2", name: "Roof" },
 ];
 
 const MOCK_ROOMS: Room[] = [
