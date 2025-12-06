@@ -14,18 +14,7 @@ function DashboardContent() {
             
             <main className="flex-1 flex flex-col h-full overflow-hidden relative transition-all duration-300">
                 {/* Top Header */}
-                <header className="h-24 border-b border-border bg-white px-8 flex items-center justify-between shrink-0">
-                    <div className="flex items-center gap-4 w-1/3">
-                        <div className="relative w-full max-w-md">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                            <input 
-                                type="text" 
-                                placeholder="Search for rooms, bookings..." 
-                                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-secondary/50 border-transparent focus:bg-white focus:border-primary/20 focus:ring-2 focus:ring-primary/10 transition-all text-sm outline-none"
-                            />
-                        </div>
-                    </div>
-
+                <header className="h-24 border-b border-border bg-white px-8 flex items-center justify-center shrink-0">
                     <div className="flex bg-secondary/50 p-1.5 rounded-xl">
                         {branches.map(branch => (
                             <button
@@ -41,12 +30,6 @@ function DashboardContent() {
                                 {branch.name}
                             </button>
                         ))}
-                    </div>
-                    
-                    <div className="w-1/3 flex justify-end">
-                        <button className="bg-primary text-primary-foreground px-6 py-3 rounded-full text-sm font-bold shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors">
-                            + New Walk-in
-                        </button>
                     </div>
                 </header>
 
