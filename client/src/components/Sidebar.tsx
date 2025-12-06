@@ -1,6 +1,7 @@
 import { useDashboard } from "@/context/DashboardContext";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, Building2, Users, Settings, Bell, LogOut } from "lucide-react";
+import logo from "@assets/WhatsApp_Image_2025-11-21_at_13.15.47_0e28b0ce-removebg-previe_1764984243025.png";
 
 export function Sidebar() {
   const { bookings } = useDashboard();
@@ -9,9 +10,7 @@ export function Sidebar() {
   return (
     <aside className="w-64 h-screen bg-white border-r border-border flex flex-col shrink-0">
       <div className="p-6 flex items-center gap-3">
-        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <Building2 className="w-5 h-5 text-white" />
-        </div>
+        <img src={logo} alt="Shagaf Logo" className="h-12 w-auto object-contain" />
         <span className="font-bold text-lg tracking-tight text-foreground">Shagaf</span>
       </div>
 

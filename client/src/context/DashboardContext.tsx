@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from "@/lib/utils";
 
 // Types
 export type RoomStatus = "available" | "occupied" | "maintenance";
