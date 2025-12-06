@@ -11,24 +11,22 @@ export function RoomMap() {
   return (
     <div className="flex-1 bg-white p-8 overflow-hidden relative flex flex-col">
         {/* Canvas / Floor Plan Container */}
-        <div className="flex-1 relative border border-slate-100 rounded-3xl bg-slate-50/50 overflow-hidden shadow-inner">
+        <div className="flex-1 relative border border-slate-100 rounded-3xl bg-slate-50/50 overflow-hidden shadow-inner p-10">
             
             {/* Grid Background for blueprint feel */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-            <div className="absolute inset-10">
-                {/* This is the "Canvas" area. We use a 12x12 grid for the floor plan layout */}
-                <div className="w-full h-full grid grid-cols-12 grid-rows-12 gap-4">
-                    {branchRooms.map((room) => (
-                        <RoomNode 
-                            key={room.id} 
-                            room={room} 
-                            isSelected={selectedRoomId === room.id}
-                            hasPending={!!getPendingBookingForRoom(room.id)}
-                            onClick={() => setSelectedRoomId(room.id)}
-                        />
-                    ))}
-                </div>
+            {/* Simply layout - Auto Grid instead of complex coordinates */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-[200px]">
+                {branchRooms.map((room) => (
+                    <RoomNode 
+                        key={room.id} 
+                        room={room} 
+                        isSelected={selectedRoomId === room.id}
+                        hasPending={!!getPendingBookingForRoom(room.id)}
+                        onClick={() => setSelectedRoomId(room.id)}
+                    />
+                ))}
             </div>
         </div>
     </div>
@@ -46,41 +44,26 @@ function RoomNode({
     hasPending: boolean;
     onClick: () => void;
 }) {
-    // Map the simple x,y coordinates to the grid
-    // Assuming mock data x,y are 0-indexed small integers. 
-    // We multiply or offset them to fit the 12x12 grid nicely.
-    // For this demo, we'll treat x,y directly as grid coordinates (1-indexed for CSS Grid)
-    const style = {
-        gridColumn: `${(room.x || 0) * 2 + 2} / span ${(room.w || 1) * 2}`,
-        gridRow: `${(room.y || 0) * 2 + 2} / span ${(room.h || 1) * 2}`,
-    };
-
     return (
         <motion.button
             layoutId={`room-${room.id}`}
             onClick={onClick}
-            style={style}
             className={cn(
-                "relative group transition-all duration-300 flex flex-col items-center justify-center",
+                "relative group transition-all duration-300 flex flex-col items-center justify-center w-full h-full",
                 // Blueprint style borders
                 "border-2",
                 isSelected 
                     ? "border-primary bg-primary/10 z-10 shadow-lg shadow-primary/10" 
-                    : "border-slate-300 bg-white hover:border-primary/60 hover:bg-slate-50",
-                // If walls should look connected, we might want to adjust margins, but gap-4 gives a clean separated look
-                // For a "connected walls" look, we'd remove the gap in the parent and handle borders carefully.
-                // The user asked for "canvas" like the image, which has gaps/corridors.
-                
-                // Rounded corners only on "outer" edges? For now, slight rounding looks friendly.
-                "rounded-lg"
+                    : "border-slate-300 bg-white hover:border-primary/60 hover:bg-slate-50 hover:shadow-md hover:-translate-y-1",
+                "rounded-xl"
             )}
         >
-            {/* Status Indicator Line (like the image green/yellow lines) */}
+            {/* Status Indicator Line */}
             {hasPending && (
                  <motion.div 
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
-                    className="absolute top-0 left-1/4 right-1/4 h-1 bg-warning rounded-b-sm shadow-sm"
+                    className="absolute top-0 left-1/4 right-1/4 h-1.5 bg-warning rounded-b-md shadow-sm"
                  />
             )}
 
@@ -97,21 +80,33 @@ function RoomNode({
 
             {/* Room Number / ID Circle (Center) */}
             <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center mb-2 font-bold text-lg transition-colors",
-                isSelected ? "bg-primary text-white" : "bg-slate-100 text-slate-600 group-hover:bg-primary/10 group-hover:text-primary",
-                room.type === 'roof' && !isSelected && "bg-purple-50 text-purple-600"
+                "w-16 h-16 rounded-full flex items-center justify-center mb-3 font-bold text-2xl transition-colors shadow-sm border",
+                isSelected 
+                    ? "bg-primary text-white border-primary" 
+                    : "bg-slate-50 text-slate-600 border-slate-200 group-hover:bg-white group-hover:border-primary/30 group-hover:text-primary",
+                room.type === 'roof' && !isSelected && "bg-purple-50 text-purple-600 border-purple-100"
             )}>
                 {room.id.replace('r', '')}
             </div>
 
             {/* Room Name Label */}
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide max-w-[90%] truncate">
+            <span className="text-sm font-bold text-slate-700 uppercase tracking-wide max-w-[90%] truncate mb-1">
                 {room.name}
             </span>
 
+            {/* Status Text */}
+            <span className={cn(
+                "text-[10px] px-2 py-0.5 rounded-full font-medium uppercase tracking-wider mb-2",
+                room.status === 'available' ? "bg-emerald-100 text-emerald-700" :
+                room.status === 'occupied' ? "bg-slate-100 text-slate-500" :
+                "bg-amber-100 text-amber-700"
+            )}>
+                {room.status}
+            </span>
+
             {/* Capacity Hint */}
-            <div className="absolute bottom-2 right-2 flex items-center gap-1 text-[10px] text-slate-400">
-                <Users className="w-3 h-3" />
+            <div className="absolute bottom-3 right-3 flex items-center gap-1.5 text-xs text-slate-400 font-medium bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                <Users className="w-3.5 h-3.5" />
                 {room.capacity}
             </div>
 
