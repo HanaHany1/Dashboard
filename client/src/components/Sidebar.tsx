@@ -34,7 +34,7 @@ export function Sidebar() {
              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" alt="Admin" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium">Admin User</span>
+            <span className="text-sm font-medium">admin@shagaf.com</span>
             <span className="text-xs text-muted-foreground">Manager</span>
           </div>
         </div>
