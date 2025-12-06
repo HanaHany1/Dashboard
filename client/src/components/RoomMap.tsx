@@ -16,9 +16,10 @@ export function RoomMap() {
             {/* Grid Background for blueprint feel */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-            <div className="absolute inset-10 overflow-auto">
+            <div className="absolute inset-10">
                 {/* This is the "Canvas" area. We use a 12x12 grid for the floor plan layout */}
-                <div className="w-full h-full min-w-[800px] min-h-[600px] grid grid-cols-12 grid-rows-12 gap-4">
+                {/* Removed min-w/min-h and overflow to prevent scrolling */}
+                <div className="w-full h-full grid grid-cols-12 grid-rows-12 gap-4">
                     {branchRooms.map((room) => (
                         <RoomNode 
                             key={room.id} 
