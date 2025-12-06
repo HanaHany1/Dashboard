@@ -18,7 +18,6 @@ export function Sidebar() {
         <div className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Main Menu</div>
         <nav className="space-y-1">
           <NavItem icon={LayoutDashboard} label="Dashboard" active />
-          <NavItem icon={Building2} label="Rooms & Roofs" />
           <NavItem icon={Users} label="Customers" />
           <NavItem icon={Bell} label="Notifications" badge={pendingCount > 0 ? pendingCount : undefined} />
         </nav>
