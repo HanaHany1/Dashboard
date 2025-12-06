@@ -2,10 +2,16 @@ import { useDashboard } from "@/context/DashboardContext";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, Building2, Users, Settings, Bell, LogOut } from "lucide-react";
 import logo from "@assets/WhatsApp_Image_2025-11-21_at_13.15.47_0e28b0ce-removebg-previe_1764984243025.png";
+import { useLocation } from "wouter";
 
 export function Sidebar() {
   const { bookings, userEmail } = useDashboard();
   const pendingCount = bookings.filter(b => b.status === "pending").length;
+  const [, setLocation] = useLocation();
+
+  const handleLogout = () => {
+    setLocation("/");
+  };
 
   return (
     <aside className="w-64 h-screen bg-white border-r border-border flex flex-col shrink-0">
@@ -27,7 +33,7 @@ export function Sidebar() {
       <div className="mt-auto px-4 py-6 border-t border-border">
          <nav className="space-y-1">
           <NavItem icon={Settings} label="Settings" />
-          <NavItem icon={LogOut} label="Logout" variant="danger" />
+          <NavItem icon={LogOut} label="Logout" variant="danger" onClick={handleLogout} />
         </nav>
         
         <div className="mt-6 flex items-center gap-3 px-2">
@@ -44,9 +50,10 @@ export function Sidebar() {
   );
 }
 
-function NavItem({ icon: Icon, label, active, badge, variant = "default" }: { icon: any, label: string, active?: boolean, badge?: number, variant?: "default" | "danger" }) {
+function NavItem({ icon: Icon, label, active, badge, variant = "default", onClick }: { icon: any, label: string, active?: boolean, badge?: number, variant?: "default" | "danger", onClick?: () => void }) {
   return (
     <button
+      onClick={onClick}
       className={cn(
         "w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
         active 
