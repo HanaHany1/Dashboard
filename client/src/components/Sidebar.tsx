@@ -7,10 +7,14 @@ import { useLocation } from "wouter";
 export function Sidebar() {
   const { bookings, userEmail } = useDashboard();
   const pendingCount = bookings.filter(b => b.status === "pending").length;
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const handleLogout = () => {
     setLocation("/");
+  };
+
+  const handleNavigation = (path: string) => {
+    setLocation(path);
   };
 
   return (
@@ -23,9 +27,25 @@ export function Sidebar() {
       <div className="px-4 py-2">
         <div className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Main Menu</div>
         <nav className="space-y-1">
-          <NavItem icon={LayoutDashboard} label="Dashboard" active />
-          <NavItem icon={Users} label="Customers" />
-          <NavItem icon={Bell} label="Notifications" badge={pendingCount > 0 ? pendingCount : undefined} />
+          <NavItem 
+            icon={LayoutDashboard} 
+            label="Dashboard" 
+            active={location === "/dashboard"} 
+            onClick={() => handleNavigation("/dashboard")}
+          />
+          <NavItem 
+            icon={Users} 
+            label="Customers" 
+            active={location === "/customers"}
+            onClick={() => handleNavigation("/customers")}
+          />
+          <NavItem 
+            icon={Bell} 
+            label="Notifications" 
+            active={location === "/notifications"} 
+            badge={pendingCount > 0 ? pendingCount : undefined} 
+            onClick={() => handleNavigation("/notifications")}
+          />
         </nav>
       </div>
 
